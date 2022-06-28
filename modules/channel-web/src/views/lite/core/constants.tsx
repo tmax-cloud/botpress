@@ -29,7 +29,6 @@ export default {
     showTimestamp: false,
     disableAnimations: false,
     hideWidget: false,
-    showCloseWidget: false,
     externalAuthToken: undefined,
     showPoweredBy: window.SHOW_POWERED_BY,
     enablePersistHistory: true,
