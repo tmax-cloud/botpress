@@ -186,6 +186,8 @@ export interface Config {
   closeOnEscape: boolean
   botName?: string
   composerPlaceholder?: string
+  /* 봇 아바타 활성화 유무 */
+  hideBotAvatar?: boolean
   avatarUrl?: string
   /** Force the display language of the webchat (en, fr, ar, ru, etc..)
    * Defaults to the user's browser language if not set

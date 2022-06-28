@@ -26,6 +26,7 @@ export default {
     useSessionStorage: false,
     showUserName: false,
     showUserAvatar: false,
+    hideBotAvatar: true,
     showTimestamp: false,
     disableAnimations: false,
     hideWidget: false,

@@ -342,7 +342,9 @@ class Header extends React.Component<HeaderProps> {
         <div className={'bpw-header-close-container'}>{this.props.showCloseButton && this.renderCloseButton()}</div>
         <div className={'bpw-header-title-flexbox'}>
           <div className={'bpw-header-title-container'}>
-            <Avatar name={this.props.botName} avatarUrl={this.props.botAvatarUrl} height={40} width={40} />
+            {!this.props.hideBotAvatar && (
+              <Avatar name={this.props.botName} avatarUrl={this.props.botAvatarUrl} height={40} width={40} />
+            )}
             {this.renderTitle()}
           </div>
         </div>
@@ -387,6 +389,8 @@ export default inject(({ store }: { store: RootStore }) => ({
   botAvatarUrl: store.botAvatarUrl,
   hasBotInfoDescription: store.hasBotInfoDescription,
   isEmulator: store.isEmulator,
+
+  hideBotAvatar: store.config.hideBotAvatar,
   botConvoDescription: store.config.botConvoDescription,
   enableArrowNavigation: store.config.enableArrowNavigation
 }))(observer(Header))
@@ -423,4 +427,5 @@ type HeaderProps = Pick<
   | 'enableArrowNavigation'
   | 'botConvoDescription'
   | 'customButtons'
+  | 'hideBotAvatar'
 >
