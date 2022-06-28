@@ -232,21 +232,23 @@ class Header extends React.Component<HeaderProps> {
 
   renderCloseButton() {
     return (
-      <button
-        type="button"
-        id="btn-close"
-        aria-label={this.props.intl.formatMessage({
-          id: 'header.hideChatWindow',
-          defaultMessage: 'Hide the chat window'
-        })}
-        ref={el => (this.btnEls[6] = el)}
-        className={'bpw-header-icon bpw-header-icon-close'}
-        onClick={this.props.hideChat}
-        onKeyDown={this.handleKeyDown.bind(this, this.props.hideChat)}
-        onBlur={this.onBlur}
-      >
-        <Close />
-      </button>
+      <ToolTip childId="btn-close" content={this.props.intl.formatMessage({ id: 'header.hideChatWindow' })}>
+        <button
+          type="button"
+          id="btn-close"
+          aria-label={this.props.intl.formatMessage({
+            id: 'header.hideChatWindow',
+            defaultMessage: 'Hide the chat window'
+          })}
+          ref={el => (this.btnEls[6] = el)}
+          className={'bpw-header-icon bpw-header-icon-close'}
+          onClick={this.props.hideChat}
+          onKeyDown={this.handleKeyDown.bind(this, this.props.hideChat)}
+          onBlur={this.onBlur}
+        >
+          <Close />
+        </button>
+      </ToolTip>
     )
   }
 
@@ -337,6 +339,7 @@ class Header extends React.Component<HeaderProps> {
 
     return (
       <div className={'bpw-header-container'}>
+        <div className={'bpw-header-close-container'}>{this.props.showCloseButton && this.renderCloseButton()}</div>
         <div className={'bpw-header-title-flexbox'}>
           <div className={'bpw-header-title-container'}>
             <Avatar name={this.props.botName} avatarUrl={this.props.botAvatarUrl} height={40} width={40} />
@@ -350,7 +353,6 @@ class Header extends React.Component<HeaderProps> {
         {this.props.showConversationsButton && this.renderConvoButton()}
         {this.props.showBotInfoButton && this.renderBotInfoButton()}
         {this.props.showResizeButton && this.renderResizeButton()}
-        {this.props.showCloseButton && this.renderCloseButton()}
       </div>
     )
   }

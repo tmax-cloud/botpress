@@ -102,17 +102,12 @@ class ViewStore {
 
   @computed
   get showCloseButton() {
-    return !this.isFullscreen && !this.rootStore.config?.showCloseWidget
+    return !this.isFullscreen
   }
 
   @computed
   get showWidgetButton() {
     return !this.rootStore.config?.hideWidget
-  }
-
-  @computed
-  get showCloseWidgetButton() {
-    return this.rootStore.config?.showCloseWidget
   }
 
   @computed
@@ -139,11 +134,6 @@ class ViewStore {
   @computed
   get widgetTransition() {
     return this.transitions?.widgetTransition
-  }
-
-  @computed
-  get closeTransition() {
-    return this.transitions?.closeTransition
   }
 
   @computed
@@ -290,17 +280,13 @@ class ViewStore {
     if (this.disableAnimations) {
       this.activeView = 'side'
       this.rootStore.postMessage('webchatOpened')
-      return this._updateTransitions({
-        widgetTransition: undefined,
-        sideTransition: 'none',
-        closeTransition: 'none'
-      })
+      return this._updateTransitions({ widgetTransition: undefined, sideTransition: 'none' })
     }
 
     this._updateTransitions({ widgetTransition: 'fadeOut' })
 
     setTimeout(() => {
-      this._updateTransitions({ sideTransition: 'fadeIn', closeTransition: 'fadeIn' })
+      this._updateTransitions({ sideTransition: 'fadeIn' })
     }, constants.ANIM_DURATION + 10)
 
     this._endAnimation('side')
@@ -317,14 +303,10 @@ class ViewStore {
     if (this.disableAnimations) {
       this.activeView = 'widget'
       this.rootStore.postMessage('webchatClosed')
-      return this._updateTransitions({
-        widgetTransition: undefined,
-        sideTransition: undefined,
-        closeTransition: undefined
-      })
+      return this._updateTransitions({ widgetTransition: undefined, sideTransition: undefined })
     }
 
-    this._updateTransitions({ sideTransition: 'fadeOut', closeTransition: 'fadeOut' })
+    this._updateTransitions({ sideTransition: 'fadeOut' })
 
     if (!this.activeView || this.activeView === 'side') {
       setTimeout(() => {
@@ -353,8 +335,7 @@ class ViewStore {
     setTimeout(() => {
       this._updateTransitions({
         widgetTransition: undefined,
-        sideTransition: this.transitions.sideTransition === 'fadeIn' && 'fadeIn',
-        closeTransition: this.transitions.closeTransition === 'fadeIn' && 'fadeIn'
+        sideTransition: this.transitions.sideTransition === 'fadeIn' && 'fadeIn'
       })
     }, constants.ANIM_DURATION * 2.1)
   }
