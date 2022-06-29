@@ -721,6 +721,11 @@ body {
   border-top: 1px solid #aaaaaa;
 }
 
+.bpw-suggestion-list-scroll {
+  overflow: auto;
+  max-height: 130px;
+}
+
 .bpw-suggestion-item {
   color: #1a1e22;
   text-overflow: ellipsis;

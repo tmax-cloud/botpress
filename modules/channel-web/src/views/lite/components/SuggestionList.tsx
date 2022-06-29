@@ -1,4 +1,5 @@
 import { Menu, MenuItem } from '@blueprintjs/core'
+import classNames from 'classnames'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import Loading from '../icons/Loading'
@@ -13,7 +14,7 @@ const SuggestionList: FC<SuggestionListProps> = props => {
         </div>
       ) : (
         !_.isEmpty(suggestions) && (
-          <Menu className={'bpw-suggestion-list'}>
+          <Menu className={classNames('bpw-suggestion-list', { 'bpw-suggestion-list-scroll': suggestions.length > 4 })}>
             {suggestions.map(suggestion => {
               return (
                 <MenuItem
