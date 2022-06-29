@@ -151,12 +151,16 @@ class Composer extends React.Component<ComposerProps, StateProps> {
           suggestions={this.state.suggestions}
           onItemClick={this.handleSuggestionClicked}
         />
-        <div role="region" className={classNames('bpw-composer', direction)}>
+        <div
+          role="region"
+          className={classNames('bpw-composer', direction, { 'bpw-composer-powered': this.props.isPoweredByDisplayed })}
+        >
           <div className={'bpw-composer-inner'}>
             <div className={'bpw-composer-textarea'}>
               <textarea
                 ref={this.textInput}
                 id="input-message"
+                rows={1}
                 onFocus={this.props.setFocus.bind(this, 'input')}
                 placeholder={placeholder}
                 onChange={this.handleMessageChanged}
@@ -234,6 +238,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   focusedArea: store.view.focusedArea,
   focusPrevious: store.view.focusPrevious,
   focusNext: store.view.focusNext,
+  isPoweredByDisplayed: store.view.isPoweredByDisplayed,
   enableArrowNavigation: store.config.enableArrowNavigation,
   enableResetSessionShortcut: store.config.enableResetSessionShortcut,
   resetSession: store.resetSession,
@@ -270,6 +275,7 @@ type ComposerProps = {
     | 'currentConversation'
     | 'preferredLanguage'
     | 'composerMaxTextLength'
+    | 'isPoweredByDisplayed'
   >
 
 interface StateProps {
