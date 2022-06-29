@@ -58,8 +58,9 @@ export class NLURouter extends CustomRouter {
           .uniq()
           .value()
         
-        const searchs = await this.nluService.intents.findMatches(msg, utter)  
-        res.send(searchs)                
+        const searchs = await this.nluService.intents.findMatches(msg, utter)
+        const answer = await this.nluService.intents.deleteBracket(searchs)          
+        res.send(answer)                
       })
     )
 

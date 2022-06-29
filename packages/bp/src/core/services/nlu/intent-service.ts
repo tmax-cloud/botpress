@@ -38,4 +38,31 @@ export class IntentService {
       return matches.match(regex)
     })
   }
+
+  public async deleteBracket(utrArray) {
+    var stack = new Array()
+    var str = new Array()
+    var answer = new Array()
+    for (let i = 0; i < utrArray.length; i++) {
+      const utterance = utrArray[i]
+      const bigBracket = utterance.replace(/[\[\]']+/g,'')
+      for(let x of bigBracket) {
+        stack.push(x)
+      }
+      for(let j = 0; j < utterance.length; j++) {
+        let tmp = stack.pop()
+
+        if(tmp === '(') {
+          while (str.pop() !== ')') {}
+        } else {
+          str.push(tmp)
+        }    
+      }
+      const tmputr = str.reverse().join('')     
+      answer.push(tmputr) 
+      stack.length = 0
+      str.length = 0       
+    }     
+    return answer   
+  }
 }
