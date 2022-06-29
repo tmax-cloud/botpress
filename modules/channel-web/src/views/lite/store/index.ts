@@ -544,6 +544,16 @@ class RootStore {
 
     return this.conversations[0].id
   }
+
+  /** 입력에 대한 자동완성 목록을 리턴 */
+  @action.bound
+  async fetchSuggestionData(message: string): Promise<string[]> {
+    if (!message) {
+      return []
+    }
+    const data = await this.api.fetchSuggestions(message)
+    return data
+  }
 }
 
 export { RootStore }
