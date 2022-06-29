@@ -96,6 +96,8 @@ body {
 
 .bpw-layout-fullscreen {
   visibility: visible;
+  bottom: 0;
+  right: 0;
 }
 
 .bpw-layout-fullheight {
@@ -671,9 +673,16 @@ body {
   padding-right: 60px;
 }
 
+.bpw-composer-powered {
+  border-radius: 0;
+  border-bottom: 0;
+}
+
 .bpw-powered {
   text-align: right;
   border-top: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+  border-radius: 0 0 10px 10px;
   padding: 2px 5px 2px 0;
 }
 
