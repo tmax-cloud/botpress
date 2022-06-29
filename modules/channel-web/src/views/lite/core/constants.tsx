@@ -31,7 +31,7 @@ export default {
     disableAnimations: false,
     hideWidget: false,
     externalAuthToken: undefined,
-    // showPoweredBy: window.SHOW_POWERED_BY, /** PoweredBy 안보이도록 초기화 */
+    showPoweredBy: window.SHOW_POWERED_BY,
     enablePersistHistory: true,
     enableResetSessionShortcut: false,
     enableVoiceComposer: false,
