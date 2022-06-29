@@ -657,7 +657,9 @@ body {
 }
 
 .bpw-composer-textarea {
+  display: flex;
   flex-grow: 2;
+  padding: 0.25rem 0.625rem;
 }
 
 .bpw-composer textarea {
@@ -666,11 +668,11 @@ body {
   width: 100%;
   resize: none;
   line-height: 1.2;
-  height: 50px;
   border: none;
   font-size: 1rem;
-  padding: 0.75rem 1rem;
-  padding-right: 60px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bpw-composer-powered {

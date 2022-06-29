@@ -160,6 +160,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
               <textarea
                 ref={this.textInput}
                 id="input-message"
+                rows={1}
                 onFocus={this.props.setFocus.bind(this, 'input')}
                 placeholder={placeholder}
                 onChange={this.handleMessageChanged}
