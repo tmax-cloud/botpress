@@ -8,8 +8,8 @@ export default {
   HISTORY_MAX_MESSAGES: 10,
   /** The number of minutes before a new timestamp is displayed */
   TIME_BETWEEN_DATES: 10,
-  DEFAULT_LAYOUT_WIDTH: 360,
-  DEFAULT_CONTAINER_WIDTH: 360,
+  DEFAULT_LAYOUT_WIDTH: 380,
+  DEFAULT_CONTAINER_WIDTH: 380,
   SENT_HISTORY_SIZE: 20,
   /** The default configuration when starting the chat */
   DEFAULT_CONFIG: {

@@ -231,6 +231,18 @@ export default class WebchatApi {
     return messages
   }
 
+  async fetchSuggestions(msg: string): Promise<any> {
+    try {
+      const { data } = await this.axios.get(`/search/${encodeURIComponent(msg)}`, {
+        ...this.axiosConfig,
+        baseURL: `${window.BOT_API_PATH}/nlu`
+      })
+      return data
+    } catch (err) {
+      console.error('Error while fetching suggestions', err)
+    }
+  }
+
   handleApiError = async error => {
     // @deprecated 11.9 (replace with proper error management)
     const data = get(error, 'response.data', {})

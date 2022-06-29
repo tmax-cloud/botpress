@@ -73,29 +73,20 @@ class Composer extends React.Component<ComposerProps, StateProps> {
     }
   }
 
-  fetchSuggestions = debounce(msg => {
-    // TODO: API 콜로 변경하기
-    if (msg.includes('오류')) {
-      this.setState({
-        suggestions: ['오류 파드 보여줘', '오류 리소스 보여줘', '오류 영구 볼륨 클레임 보여줘']
-      })
-    }
-    if (msg.includes('사전')) {
-      this.setState({
-        suggestions: ['k8s 용어 사전']
-      })
-    }
+  fetchSuggestions = debounce(async msg => {
+    const suggestions = await this.props.fetchSuggestionData(msg)
+    this.setState({ suggestions })
     this.setState({ isLoading: false })
   }, 500)
 
-  handleMessageChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  handleMessageChanged = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { updateMessage, composerMaxTextLength } = this.props
 
     const msg = e.target.value.slice(0, composerMaxTextLength)
 
     this.setState({ isLoading: true, suggestions: [] })
     updateMessage(msg)
-    this.fetchSuggestions(msg)
+    await this.fetchSuggestions(msg)
   }
 
   handleSuggestionClicked = (event: React.MouseEvent<HTMLElement>, value: string) => {
@@ -151,12 +142,16 @@ class Composer extends React.Component<ComposerProps, StateProps> {
           suggestions={this.state.suggestions}
           onItemClick={this.handleSuggestionClicked}
         />
-        <div role="region" className={classNames('bpw-composer', direction)}>
+        <div
+          role="region"
+          className={classNames('bpw-composer', direction, { 'bpw-composer-powered': this.props.isPoweredByDisplayed })}
+        >
           <div className={'bpw-composer-inner'}>
             <div className={'bpw-composer-textarea'}>
               <textarea
                 ref={this.textInput}
                 id="input-message"
+                rows={1}
                 onFocus={this.props.setFocus.bind(this, 'input')}
                 placeholder={placeholder}
                 onChange={this.handleMessageChanged}
@@ -230,10 +225,12 @@ export default inject(({ store }: { store: RootStore }) => ({
   sendMessage: store.sendMessage,
   sendVoiceMessage: store.sendVoiceMessage,
   botName: store.botName,
+  fetchSuggestionData: store.fetchSuggestionData,
   setFocus: store.view.setFocus,
   focusedArea: store.view.focusedArea,
   focusPrevious: store.view.focusPrevious,
   focusNext: store.view.focusNext,
+  isPoweredByDisplayed: store.view.isPoweredByDisplayed,
   enableArrowNavigation: store.config.enableArrowNavigation,
   enableResetSessionShortcut: store.config.enableResetSessionShortcut,
   resetSession: store.resetSession,
@@ -270,6 +267,8 @@ type ComposerProps = {
     | 'currentConversation'
     | 'preferredLanguage'
     | 'composerMaxTextLength'
+    | 'isPoweredByDisplayed'
+    | 'fetchSuggestionData'
   >
 
 interface StateProps {

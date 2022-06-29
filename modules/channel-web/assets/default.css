@@ -79,10 +79,12 @@ body {
 
 .bpw-layout {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 25px;
+  right: 25px;
   height: 60%;
   border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-radius: 10px;
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -94,10 +96,12 @@ body {
 
 .bpw-layout-fullscreen {
   visibility: visible;
+  bottom: 0;
+  right: 0;
 }
 
 .bpw-layout-fullheight {
-  height: calc(100% - 4.75rem - 42px);
+  height: calc(100% - 4.75rem);
 }
 
 .bpw-bot-avatar {
@@ -637,6 +641,8 @@ body {
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: #aaaaaa;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0 0 10px 10px;
   position: relative;
   padding: 0.5rem 0 0;
   background: rgba(255, 255, 255, 0.9);
@@ -651,7 +657,9 @@ body {
 }
 
 .bpw-composer-textarea {
+  display: flex;
   flex-grow: 2;
+  padding: 0.25rem 0.625rem;
 }
 
 .bpw-composer textarea {
@@ -660,16 +668,23 @@ body {
   width: 100%;
   resize: none;
   line-height: 1.2;
-  height: 50px;
   border: none;
   font-size: 1rem;
-  padding: 0.75rem 1rem;
-  padding-right: 60px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.bpw-composer-powered {
+  border-radius: 0;
+  border-bottom: 0;
 }
 
 .bpw-powered {
   text-align: right;
   border-top: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+  border-radius: 0 0 10px 10px;
   padding: 2px 5px 2px 0;
 }
 
@@ -706,6 +721,11 @@ body {
   border-top: 1px solid #aaaaaa;
 }
 
+.bpw-suggestion-list-scroll {
+  overflow: auto;
+  max-height: 130px;
+}
+
 .bpw-suggestion-item {
   color: #1a1e22;
   text-overflow: ellipsis;
@@ -735,6 +755,7 @@ body {
   font-weight: 500;
   border-top: solid 1px #ccc;
   border-bottom: 1px solid #ccc;
+  border-radius: 10px 10px 0 0;
   padding: 0 1rem;
   overflow: hidden;
 }
