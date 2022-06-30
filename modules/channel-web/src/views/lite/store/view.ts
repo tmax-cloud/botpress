@@ -53,9 +53,9 @@ class ViewStore {
   @observable
   public highlightedMessages = []
 
-  /** 레이아웃 높이 조절할 용도로 사용 */
+  /** 레이아웃 조절할 용도로 사용 */
   @observable
-  public isLayoutFullHeight = false
+  public isLayoutMinimized = true
 
   constructor(rootStore: RootStore, fullscreen: boolean) {
     this.rootStore = rootStore
@@ -254,13 +254,17 @@ class ViewStore {
   }
 
   @action.bound
-  minimizeLayoutHeight() {
-    this.isLayoutFullHeight = false
+  minimizeLayout() {
+    this.isLayoutMinimized = true
+    !this.isFullscreen && this.setContainerWidth(constants.DEFAULT_CONTAINER_WIDTH)
+    !this.isFullscreen && this.setLayoutWidth(constants.DEFAULT_LAYOUT_WIDTH)
   }
 
   @action.bound
-  maximizeLayoutHeight() {
-    this.isLayoutFullHeight = true
+  maximizeLayout() {
+    this.isLayoutMinimized = false
+    !this.isFullscreen && this.setContainerWidth(constants.DEFAULT_MAX_CONTAINER_WIDTH)
+    !this.isFullscreen && this.setLayoutWidth(constants.DEFAULT_MAX_LAYOUT_WIDTH)
   }
 
   /** Updates one or multiple properties of a specific button */
@@ -321,7 +325,7 @@ class ViewStore {
 
   @action.bound
   resizeChat() {
-    this.isLayoutFullHeight ? this.minimizeLayoutHeight() : this.maximizeLayoutHeight()
+    this.isLayoutMinimized ? this.maximizeLayout() : this.minimizeLayout()
   }
 
   @action.bound

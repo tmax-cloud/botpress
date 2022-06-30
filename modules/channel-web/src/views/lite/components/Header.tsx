@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { observe } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
@@ -207,7 +208,7 @@ class Header extends React.Component<HeaderProps> {
       <ToolTip
         childId="btn-resize"
         content={this.props.intl.formatMessage({
-          id: this.props.isLayoutFullHeight ? 'header.minimizeChatWindow' : 'header.maximizeChatWindow'
+          id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow'
         })}
       >
         <button
@@ -215,8 +216,8 @@ class Header extends React.Component<HeaderProps> {
           tabIndex={-1}
           id="btn-resize"
           aria-label={this.props.intl.formatMessage({
-            id: this.props.isLayoutFullHeight ? 'header.minimizeChatWindow' : 'header.maximizeChatWindow',
-            defaultMessage: this.props.isLayoutFullHeight ? 'Minimize the chat window' : 'Maximize the chat window'
+            id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow',
+            defaultMessage: this.props.isLayoutMinimized ? 'Maximize the chat window' : 'Minimize the chat window'
           })}
           ref={el => (this.btnEls[5] = el)}
           className={'bpw-header-icon bpw-header-icon-resize'}
@@ -224,7 +225,7 @@ class Header extends React.Component<HeaderProps> {
           onKeyDown={this.handleKeyDown.bind(this, this.props.resizeChat)}
           onBlur={this.onBlur}
         >
-          {this.props.isLayoutFullHeight ? <Minimize /> : <Maximize />}
+          {this.props.isLayoutMinimized ? <Maximize /> : <Minimize />}
         </button>
       </ToolTip>
     )
@@ -338,7 +339,11 @@ class Header extends React.Component<HeaderProps> {
     }
 
     return (
-      <div className={'bpw-header-container'}>
+      <div
+        className={classNames('bpw-header-container', {
+          'bpw-header-container-minimized': this.props.isLayoutMinimized
+        })}
+      >
         <div className={'bpw-header-close-container'}>{this.props.showCloseButton && this.renderCloseButton()}</div>
         <div className={'bpw-header-title-flexbox'}>
           <div className={'bpw-header-title-container'}>
@@ -376,7 +381,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   focusNext: store.view.focusNext,
   focusedArea: store.view.focusedArea,
   hideChat: store.view.hideChat,
-  isLayoutFullHeight: store.view.isLayoutFullHeight,
+  isLayoutMinimized: store.view.isLayoutMinimized,
   resizeChat: store.view.resizeChat,
   toggleConversations: store.view.toggleConversations,
   toggleBotInfo: store.view.toggleBotInfo,
@@ -413,7 +418,7 @@ type HeaderProps = Pick<
   | 'downloadConversation'
   | 'toggleConversations'
   | 'hideChat'
-  | 'isLayoutFullHeight'
+  | 'isLayoutMinimized'
   | 'resizeChat'
   | 'toggleBotInfo'
   | 'botAvatarUrl'
