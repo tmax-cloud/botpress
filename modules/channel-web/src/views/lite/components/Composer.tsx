@@ -144,7 +144,10 @@ class Composer extends React.Component<ComposerProps, StateProps> {
         />
         <div
           role="region"
-          className={classNames('bpw-composer', direction, { 'bpw-composer-powered': this.props.isPoweredByDisplayed })}
+          className={classNames('bpw-composer', direction, {
+            'bpw-composer-minimized': this.props.isLayoutMinimized,
+            'bpw-composer-powered': this.props.isPoweredByDisplayed
+          })}
         >
           <div className={'bpw-composer-inner'}>
             <div className={'bpw-composer-textarea'}>
@@ -231,6 +234,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   focusPrevious: store.view.focusPrevious,
   focusNext: store.view.focusNext,
   isPoweredByDisplayed: store.view.isPoweredByDisplayed,
+  isLayoutMinimized: store.view.isLayoutMinimized,
   enableArrowNavigation: store.config.enableArrowNavigation,
   enableResetSessionShortcut: store.config.enableResetSessionShortcut,
   resetSession: store.resetSession,
@@ -269,6 +273,7 @@ type ComposerProps = {
     | 'composerMaxTextLength'
     | 'isPoweredByDisplayed'
     | 'fetchSuggestionData'
+    | 'isLayoutMinimized'
   >
 
 interface StateProps {

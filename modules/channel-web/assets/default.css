@@ -79,12 +79,10 @@ body {
 
 .bpw-layout {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  height: 60%;
+  bottom: 0;
+  right: 0;
+  height: 100%;
   border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-radius: 10px;
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -92,6 +90,15 @@ body {
   display: -ms-flexbox;
   display: flex;
   transition: height 0.3s;
+}
+
+.bpw-layout-minimized {
+  bottom: 25px;
+  right: 25px;
+  height: 60%;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 .bpw-layout-fullscreen {
@@ -641,14 +648,16 @@ body {
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: #aaaaaa;
-  border-bottom: 1px solid #ccc;
-  border-radius: 0 0 10px 10px;
   position: relative;
   padding: 0.5rem 0 0;
   background: rgba(255, 255, 255, 0.9);
   transition: border 0.3s ease;
   outline: none;
   padding-bottom: 0.5rem;
+}
+
+.bpw-composer-minimized {
+  border-radius: 0 0 10px 10px;
 }
 
 .bpw-composer-inner {
@@ -683,8 +692,6 @@ body {
 .bpw-powered {
   text-align: right;
   border-top: 1px solid #aaaaaa;
-  border-bottom: 1px solid #aaaaaa;
-  border-radius: 0 0 10px 10px;
   padding: 2px 5px 2px 0;
 }
 
@@ -755,9 +762,12 @@ body {
   font-weight: 500;
   border-top: solid 1px #ccc;
   border-bottom: 1px solid #ccc;
-  border-radius: 10px 10px 0 0;
   padding: 0 1rem;
   overflow: hidden;
+}
+
+.bpw-header-container-minimized {
+  border-radius: 10px 10px 0 0;
 }
 
 .bpw-header-close-container {

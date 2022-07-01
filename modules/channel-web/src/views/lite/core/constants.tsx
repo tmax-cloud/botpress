@@ -10,6 +10,8 @@ export default {
   TIME_BETWEEN_DATES: 10,
   DEFAULT_LAYOUT_WIDTH: 380,
   DEFAULT_CONTAINER_WIDTH: 380,
+  DEFAULT_MAX_LAYOUT_WIDTH: 422,
+  DEFAULT_MAX_CONTAINER_WIDTH: 422,
   SENT_HISTORY_SIZE: 20,
   /** The default configuration when starting the chat */
   DEFAULT_CONFIG: {
