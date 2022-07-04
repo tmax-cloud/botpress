@@ -218,9 +218,11 @@ class Message extends Component<MessageProps> {
             })}
           </span>
           {rendered}
-          {this.props.store.config.showTimestamp && this.renderTimestamp()}
         </div>
-        {this.props.inlineFeedback}
+        <div className="bpw-chat-bubble-footer">
+          {this.props.store.config.showTimestamp && this.props.isLastOfGroup && this.renderTimestamp()}
+          {this.props.inlineFeedback}
+        </div>
       </div>
     )
   }

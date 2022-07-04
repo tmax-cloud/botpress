@@ -3,9 +3,10 @@ import debounce from 'lodash/debounce'
 import { observe } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 import ToolTip from '../../../../../../packages/ui-shared-lite/ToolTip'
+import SendMessage from '../icons/SendMessage'
 import { RootStore, StoreDef } from '../store'
 import { isRTLText } from '../utils'
 import SuggestionList from './SuggestionList'
@@ -139,6 +140,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
       <>
         <SuggestionList
           isLoading={this.state.isLoading}
+          inputMessage={this.props.message}
           suggestions={this.state.suggestions}
           onItemClick={this.handleSuggestionClicked}
         />
@@ -188,7 +190,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
                 }
               >
                 <button
-                  className={'bpw-send-button'}
+                  className={classNames('bpw-send-button', { 'bpw-send-button-active': this.props.message.length })}
                   disabled={!this.props.message.length || this.props.composerLocked || this.state.isRecording}
                   onClick={this.props.sendMessage.bind(this, undefined)}
                   aria-label={this.props.intl.formatMessage({
@@ -197,7 +199,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
                   })}
                   id="btn-send"
                 >
-                  <FormattedMessage id={'composer.send'} />
+                  <SendMessage />
                 </button>
               </ToolTip>
               {this.props.enableVoiceComposer && (
