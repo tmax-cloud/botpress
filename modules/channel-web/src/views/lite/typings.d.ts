@@ -185,6 +185,8 @@ export interface Config {
   enableArrowNavigation: boolean
   closeOnEscape: boolean
   botName?: string
+  /** 봇 이름 텍스트을 아이콘으로 대체할 지 유무 */
+  botNameUrl?: string
   composerPlaceholder?: string
   /* 봇 아바타 활성화 유무 */
   hideBotAvatar?: boolean

@@ -7,14 +7,14 @@ import { InjectedIntlProps, injectIntl } from 'react-intl'
 import confirmDialog from '../../../../../../packages/ui-shared-lite/ConfirmDialog'
 import MoreOptions from '../../../../../../packages/ui-shared-lite/MoreOptions'
 import ToolTip from '../../../../../../packages/ui-shared-lite/ToolTip'
-import Close from '../icons/Close'
+import Close from '../icons/ChatClose'
+import List from '../icons/ConversationList'
 import Delete from '../icons/Delete'
-import Download from '../icons/Download'
+import Download from '../icons/DowonloadConversation'
 import Information from '../icons/Information'
-import List from '../icons/List'
 import Maximize from '../icons/Maximize'
 import Minimize from '../icons/Minimize'
-import Reload from '../icons/Reload'
+import Sync from '../icons/Sync'
 import { RootStore, StoreDef } from '../store'
 
 import Avatar from './common/Avatar'
@@ -71,7 +71,7 @@ class Header extends React.Component<HeaderProps> {
     return (
       <div className={'bpw-header-title'}>
         <div className={'bpw-header-name'}>
-          {title}
+          {this.props.botNameUrl ? <img src={this.props.botNameUrl} /> : title}
           {this.props.hasUnreadMessages && <span className={'bpw-header-unread'}>{this.props.unreadCount}</span>}
         </div>
         {this.props.hasBotInfoDescription && (
@@ -103,132 +103,153 @@ class Header extends React.Component<HeaderProps> {
 
   renderDeleteConversationButton() {
     return (
-      <button
-        type="button"
-        tabIndex={-1}
-        id="btn-delete-conversation"
-        ref={el => (this.btnEls[0] = el)}
-        className={'bpw-header-icon bpw-header-icon-delete'}
-        onClick={this.handleDeleteConversation}
-        onKeyDown={this.handleKeyDown.bind(this, this.handleDeleteConversation)}
-        onBlur={this.onBlur}
-      >
-        <Delete />
-      </button>
+      <>
+        <button
+          type="button"
+          tabIndex={-1}
+          id="btn-delete-conversation"
+          ref={el => (this.btnEls[0] = el)}
+          className={'bpw-header-icon bpw-header-icon-delete'}
+          onClick={this.handleDeleteConversation}
+          onKeyDown={this.handleKeyDown.bind(this, this.handleDeleteConversation)}
+          onBlur={this.onBlur}
+        >
+          <Delete />
+        </button>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
   renderResetButton() {
     return (
-      <ToolTip childId="btn-reset" content={this.props.intl.formatMessage({ id: 'header.resetConversation' })}>
-        <button
-          type="button"
-          tabIndex={-1}
-          id="btn-reset"
-          aria-label={this.props.intl.formatMessage({
-            id: 'header.resetConversation',
-            defaultMessage: 'Reset the conversation'
-          })}
-          ref={el => (this.btnEls[1] = el)}
-          className={'bpw-header-icon bpw-header-icon-reset'}
-          onClick={this.props.resetSession}
-          onKeyDown={this.handleKeyDown.bind(this, this.props.resetSession)}
-          onBlur={this.onBlur}
-        >
-          <Reload />
-        </button>
-      </ToolTip>
+      <>
+        <ToolTip childId="btn-reset" content={this.props.intl.formatMessage({ id: 'header.resetConversation' })}>
+          <button
+            type="button"
+            tabIndex={-1}
+            id="btn-reset"
+            aria-label={this.props.intl.formatMessage({
+              id: 'header.resetConversation',
+              defaultMessage: 'Reset the conversation'
+            })}
+            ref={el => (this.btnEls[1] = el)}
+            className={'bpw-header-icon bpw-header-icon-reset'}
+            onClick={this.props.resetSession}
+            onKeyDown={this.handleKeyDown.bind(this, this.props.resetSession)}
+            onBlur={this.onBlur}
+          >
+            <Sync />
+          </button>
+        </ToolTip>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
   renderDownloadButton() {
     return (
-      <ToolTip childId="btn-download" content={this.props.intl.formatMessage({ id: 'header.downloadConversation' })}>
-        <button
-          type="button"
-          tabIndex={-1}
-          id="btn-download"
-          aria-label={this.props.intl.formatMessage({
-            id: 'header.downloadConversation',
-            defaultMessage: 'Reset the conversation'
-          })}
-          ref={el => (this.btnEls[2] = el)}
-          className={'bpw-header-icon bpw-header-icon-download'}
-          onClick={this.props.downloadConversation}
-          onKeyDown={this.handleKeyDown.bind(this, this.props.downloadConversation)}
-          onBlur={this.onBlur}
-        >
-          <Download />
-        </button>
-      </ToolTip>
+      <>
+        <ToolTip childId="btn-download" content={this.props.intl.formatMessage({ id: 'header.downloadConversation' })}>
+          <button
+            type="button"
+            tabIndex={-1}
+            id="btn-download"
+            aria-label={this.props.intl.formatMessage({
+              id: 'header.downloadConversation',
+              defaultMessage: 'Reset the conversation'
+            })}
+            ref={el => (this.btnEls[2] = el)}
+            className={'bpw-header-icon bpw-header-icon-download'}
+            onClick={this.props.downloadConversation}
+            onKeyDown={this.handleKeyDown.bind(this, this.props.downloadConversation)}
+            onBlur={this.onBlur}
+          >
+            <Download />
+          </button>
+        </ToolTip>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
   renderConvoButton() {
     return (
-      <ToolTip childId="btn-conversations" content={this.props.intl.formatMessage({ id: 'header.toggleConversation' })}>
-        <button
-          type="button"
-          tabIndex={-1}
-          id="btn-conversations"
-          aria-label={this.props.intl.formatMessage({
-            id: 'header.toggleConversation',
-            defaultMessage: 'Toggle the conversation'
-          })}
-          ref={el => (this.btnEls[3] = el)}
-          className={'bpw-header-icon bpw-header-icon-convo'}
-          onClick={this.props.toggleConversations}
-          onKeyDown={this.handleKeyDown.bind(this, this.props.toggleConversations)}
-          onBlur={this.onBlur}
+      <>
+        <ToolTip
+          childId="btn-conversations"
+          content={this.props.intl.formatMessage({ id: 'header.toggleConversation' })}
         >
-          <List />
-        </button>
-      </ToolTip>
+          <button
+            type="button"
+            tabIndex={-1}
+            id="btn-conversations"
+            aria-label={this.props.intl.formatMessage({
+              id: 'header.toggleConversation',
+              defaultMessage: 'Toggle the conversation'
+            })}
+            ref={el => (this.btnEls[3] = el)}
+            className={'bpw-header-icon bpw-header-icon-convo'}
+            onClick={this.props.toggleConversations}
+            onKeyDown={this.handleKeyDown.bind(this, this.props.toggleConversations)}
+            onBlur={this.onBlur}
+          >
+            <List />
+          </button>
+        </ToolTip>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
   renderBotInfoButton() {
     return (
-      <button
-        type="button"
-        tabIndex={-1}
-        id="btn-botinfo"
-        ref={el => (this.btnEls[4] = el)}
-        className={'bpw-header-icon bpw-header-icon-botinfo'}
-        onClick={this.props.toggleBotInfo}
-        onKeyDown={this.handleKeyDown.bind(this, this.props.toggleBotInfo)}
-        onBlur={this.onBlur}
-      >
-        <Information />
-      </button>
+      <>
+        <button
+          type="button"
+          tabIndex={-1}
+          id="btn-botinfo"
+          ref={el => (this.btnEls[4] = el)}
+          className={'bpw-header-icon bpw-header-icon-botinfo'}
+          onClick={this.props.toggleBotInfo}
+          onKeyDown={this.handleKeyDown.bind(this, this.props.toggleBotInfo)}
+          onBlur={this.onBlur}
+        >
+          <Information />
+        </button>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
   renderResizeButton() {
     return (
-      <ToolTip
-        childId="btn-resize"
-        content={this.props.intl.formatMessage({
-          id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow'
-        })}
-      >
-        <button
-          type="button"
-          tabIndex={-1}
-          id="btn-resize"
-          aria-label={this.props.intl.formatMessage({
-            id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow',
-            defaultMessage: this.props.isLayoutMinimized ? 'Maximize the chat window' : 'Minimize the chat window'
+      <>
+        <ToolTip
+          childId="btn-resize"
+          content={this.props.intl.formatMessage({
+            id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow'
           })}
-          ref={el => (this.btnEls[5] = el)}
-          className={'bpw-header-icon bpw-header-icon-resize'}
-          onClick={this.props.resizeChat}
-          onKeyDown={this.handleKeyDown.bind(this, this.props.resizeChat)}
-          onBlur={this.onBlur}
         >
-          {this.props.isLayoutMinimized ? <Maximize /> : <Minimize />}
-        </button>
-      </ToolTip>
+          <button
+            type="button"
+            tabIndex={-1}
+            id="btn-resize"
+            aria-label={this.props.intl.formatMessage({
+              id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow',
+              defaultMessage: this.props.isLayoutMinimized ? 'Maximize the chat window' : 'Minimize the chat window'
+            })}
+            ref={el => (this.btnEls[5] = el)}
+            className={'bpw-header-icon bpw-header-icon-resize'}
+            onClick={this.props.resizeChat}
+            onKeyDown={this.handleKeyDown.bind(this, this.props.resizeChat)}
+            onBlur={this.onBlur}
+          >
+            {this.props.isLayoutMinimized ? <Maximize /> : <Minimize />}
+          </button>
+        </ToolTip>
+        <div className={'bpw-header-icon-divider'} />
+      </>
     )
   }
 
@@ -258,17 +279,20 @@ class Header extends React.Component<HeaderProps> {
     return this.props.customButtons.map(btn => {
       const Icon: any = btn.icon
       return (
-        <button
-          type="button"
-          key={btn.id}
-          id={`btn-${btn.id}`}
-          tabIndex={-1}
-          className={'bpw-header-icon'}
-          onClick={btn.onClick.bind(this, btn.id, this)}
-          title={btn.label || ''}
-        >
-          {typeof Icon === 'function' ? <Icon /> : Icon}
-        </button>
+        <>
+          <button
+            type="button"
+            key={btn.id}
+            id={`btn-${btn.id}`}
+            tabIndex={-1}
+            className={'bpw-header-icon'}
+            onClick={btn.onClick.bind(this, btn.id, this)}
+            title={btn.label || ''}
+          >
+            {typeof Icon === 'function' ? <Icon /> : Icon}
+          </button>
+          <div className={'bpw-header-icon-divider'} />
+        </>
       )
     })
   }
@@ -397,6 +421,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   isEmulator: store.isEmulator,
 
   hideBotAvatar: store.config.hideBotAvatar,
+  botNameUrl: store.config.botNameUrl,
   botConvoDescription: store.config.botConvoDescription,
   enableArrowNavigation: store.config.enableArrowNavigation
 }))(injectIntl(observer(Header)))
@@ -435,4 +460,5 @@ type HeaderProps = InjectedIntlProps &
     | 'botConvoDescription'
     | 'customButtons'
     | 'hideBotAvatar'
+    | 'botNameUrl'
   >
