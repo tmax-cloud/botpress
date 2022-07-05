@@ -176,7 +176,7 @@ export interface Config {
   extraStylesheet: string
   showConversationsButton: boolean
   /** 레이아웃 높이 조절하는 버튼 활성화 유무  */
-  showResizeLayoutHeightButton: boolean
+  showResizeLayoutHeightButton?: boolean
   showUserName: boolean
   showUserAvatar: boolean
   showTimestamp: boolean
@@ -202,6 +202,8 @@ export interface Config {
   overrides?: Overrides
   /** When true, the widget button is hidden */
   hideWidget: boolean
+  /** 위젯 아이콘 모드. 'default' 모드는 botpress 기본 아이콘이 표시되며, 'hypercloud' 모드는 hypercloud 아이콘이 표시 */
+  widgetMode?: 'default' | 'hypercloud'
   /** Disable the slide in / out animations of the webchat */
   disableAnimations: boolean
   /** When true, sets ctrl+Enter as shortcut for reset session then send */

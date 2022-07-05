@@ -1014,6 +1014,27 @@ body {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
 }
 
+.bpw-hypercloud-widget-btn {
+  width: 68px;
+  height: 68px;
+  background-image: url(/assets/modules/channel-web/images/chatbot.png);
+  background-repeat: no-repeat;
+  background-position: -3px -3px;
+  background-color: #30bad4;
+  border-radius: 50%;
+}
+
+.bpw-hypercloud-widget-btn:focus,
+.bpw-hypercloud-widget-btn:hover {
+  background-image: url(/assets/modules/channel-web/images/chatbot-hover.png);
+  background-color: #30bad4;
+}
+
+/** 위젯 툴팁 색상 변경 */
+#botpress-btn-widget-tooltip {
+  --reef: #31475e;
+}
+
 /** BOT INFORMATION PAGE - START */
 
 .bpw-botinfo-container {
