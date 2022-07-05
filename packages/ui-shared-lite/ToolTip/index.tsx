@@ -64,12 +64,12 @@ const tipPosition = (positionClasses, el) => {
   return { left, right }
 }
 
-const ToolTip: FC<ToolTipProps> = ({ childId, children, content, position = 'top', hoverOpenDelay }) => {
+const ToolTip: FC<ToolTipProps> = ({ tooltipId, childId, children, content, position = 'top', hoverOpenDelay }) => {
   if (!content) {
     return children
   }
 
-  const id = useRef(`botpress-tooltip-${_uniqueId()}`)
+  const id = useRef(`${tooltipId || `botpress-tooltip-${_uniqueId()}`}`)
   const timeout = useRef(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tipRef = useRef<HTMLDivElement>(null)

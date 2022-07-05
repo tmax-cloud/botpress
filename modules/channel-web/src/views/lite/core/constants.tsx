@@ -34,6 +34,7 @@ export default {
     showTimestamp: true,
     disableAnimations: false,
     hideWidget: false,
+    widgetMode: 'hypercloud',
     externalAuthToken: undefined,
     // showPoweredBy: window.SHOW_POWERED_BY,  /** PoweredBy 안보이도록 초기화 */
     enablePersistHistory: true,
