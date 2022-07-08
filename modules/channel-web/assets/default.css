@@ -603,6 +603,50 @@ body {
   opacity: 0.6;
 }
 
+/* Conversation */
+
+.bpw-convo-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fbfbfb;
+}
+
+.bpw-convo-header-title-conainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.bpw-convo-header-title {
+  color: #6a6e73;
+  font-size: 12px;
+  line-height: 21px;
+}
+
+.bpw-convo-header-sort-btn {
+  background: #fbfbfb;
+  color: #6a6e73;
+  font-size: 12px;
+  line-height: 21px;
+  border: none;
+  cursor: pointer;
+}
+
+.bpw-convo-header-sort-arrow {
+  margin-right: 6px;
+}
+
+.bpw-convo-header-sort-arrow::after {
+  content: '\2191';
+}
+
+.bpw-convo-header-sort-arrow-down::after {
+  content: '\2193';
+}
+
 /* Conversation List */
 .bpw-convo-list {
   -webkit-box-flex: 1;
@@ -610,28 +654,41 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  margin-right: 0.375rem;
+}
+
+.bpw-convo-list::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.bpw-convo-list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d9d9d9;
 }
 
 .bpw-convo-add-btn {
-  background: transparent;
-  border: 2px solid;
-  border-radius: 50%;
-  float: right;
-  margin-right: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  width: 40px;
-  height: 40px;
-  padding: 0;
+  background: #316ce6;
+  color: #fff;
+  font-size: 13px;
+  line-height: 20px;
+  border: 0;
+  border-radius: 6px;
+  margin-left: 1.25rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.4375rem;
+  width: 148px;
+  height: 32px;
+  padding: 0.375rem 1rem;
   cursor: pointer;
 }
 .bpw-convo-add-btn:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  /* background-color: rgba(49, 108, 230, 0.03); */
 }
 .bpw-convo-item {
-  padding-left: 15px;
+  padding: 0.75rem 1.25rem;
   height: 4.7rem;
-  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  border-bottom: 1px solid #f5f5f5;
   cursor: pointer;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -642,7 +699,7 @@ body {
 }
 
 .bpw-convo-item:hover {
-  background-color: #fafafa;
+  background-color: #f5faff;
 }
 
 .bpw-convo-item .bpw-title {
@@ -653,13 +710,21 @@ body {
   display: -ms-flexbox;
   display: flex;
   position: relative;
+  color: #151515;
+  font-size: 16px;
+}
+
+.bpw-convo-item .bpw-title-text {
+  max-width: 16rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .bpw-convo-item .bpw-align-right {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  padding-right: 1rem;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -670,18 +735,21 @@ body {
 }
 
 .bpw-convo-item .bpw-convo-preview {
-  font-size: 0.875rem;
-  color: #9a9a9a;
+  font-size: 0.75rem;
+  color: #6a6e73;
+  line-height: 21px;
   max-width: 15rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-top: 0.375rem;
 }
 
 .bpw-convo-item .bpw-date {
   text-align: right;
-  font-size: 0.875rem;
-  color: #9a9a9a;
+  font-size: 0.75rem;
+  color: #6a6e73;
+  line-height: 21px;
   position: absolute;
   right: 0;
 }
@@ -883,11 +951,19 @@ body {
   margin-top: 0px;
 }
 
+.bpw-header-name {
+  font-weight: bold;
+}
+
+.bpw-header-name img {
+  padding-top: 2px;
+}
+
 .bpw-header-unread {
   display: inline-block;
   width: 20px;
   height: 20px;
-  margin-left: 5px;
+  margin-left: 8px;
 
   text-align: center;
   vertical-align: top;
@@ -934,15 +1010,15 @@ body {
 
 .bpw-header-icon:hover,
 .bpw-header-icon:hover svg,
-.bpw-header-icon:hover svg path {
+.bpw-header-icon:hover svg path,
+.bpw-header-icon-close:hover svg circle,
+.bpw-header-icon-back svg path#circle {
   fill: #00426b;
 }
 
-.bpw-header-icon-close:hover svg path {
+.bpw-header-icon-close:hover svg path,
+.bpw-header-icon-back:hover svg path#inner {
   fill: #ffffff;
-}
-.bpw-header-icon-close:hover svg circle {
-  fill: #07224b;
 }
 
 .bpw-header-icon-download svg path {
@@ -1151,7 +1227,7 @@ body {
   align-items: center;
   display: flex;
   height: 17px;
-  padding: 1rem 0.75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .bpw-typing-bubble {
