@@ -7,6 +7,7 @@ import { InjectedIntlProps, injectIntl } from 'react-intl'
 import confirmDialog from '../../../../../../packages/ui-shared-lite/ConfirmDialog'
 import MoreOptions from '../../../../../../packages/ui-shared-lite/MoreOptions'
 import ToolTip from '../../../../../../packages/ui-shared-lite/ToolTip'
+import Back from '../icons/Back'
 import Close from '../icons/ChatClose'
 import List from '../icons/ConversationList'
 import Delete from '../icons/Delete'
@@ -64,14 +65,18 @@ class Header extends React.Component<HeaderProps> {
   }
 
   renderTitle = () => {
-    const title = this.props.isConversationsDisplayed
-      ? this.props.intl.formatMessage({ id: 'header.conversations' })
-      : this.props.botName
+    const title = this.props.isConversationsDisplayed ? (
+      this.props.intl.formatMessage({ id: 'header.conversations' })
+    ) : this.props.botNameUrl ? (
+      <img src={this.props.botNameUrl} />
+    ) : (
+      this.props.botName
+    )
 
     return (
       <div className={'bpw-header-title'}>
         <div className={'bpw-header-name'}>
-          {this.props.botNameUrl ? <img src={this.props.botNameUrl} /> : title}
+          {title}
           {this.props.hasUnreadMessages && <span className={'bpw-header-unread'}>{this.props.unreadCount}</span>}
         </div>
         {this.props.hasBotInfoDescription && (
@@ -275,6 +280,28 @@ class Header extends React.Component<HeaderProps> {
     )
   }
 
+  renderBackButton() {
+    return (
+      <ToolTip childId="btn-back" content={this.props.intl.formatMessage({ id: 'header.backToHome' })}>
+        <button
+          type="button"
+          id="btn-back"
+          aria-label={this.props.intl.formatMessage({
+            id: 'header.backToHome',
+            defaultMessage: 'Back to Home'
+          })}
+          ref={el => (this.btnEls[7] = el)}
+          className={'bpw-header-icon bpw-header-icon-back'}
+          onClick={this.props.toggleConversations}
+          onKeyDown={this.handleKeyDown.bind(this, this.props.toggleConversations)}
+          onBlur={this.onBlur}
+        >
+          <Back />
+        </button>
+      </ToolTip>
+    )
+  }
+
   renderCustomButtons() {
     return this.props.customButtons.map(btn => {
       const Icon: any = btn.icon
@@ -369,7 +396,10 @@ class Header extends React.Component<HeaderProps> {
           'bpw-header-container-minimized': this.props.isLayoutMinimized
         })}
       >
-        <div className={'bpw-header-close-container'}>{this.props.showCloseButton && this.renderCloseButton()}</div>
+        <div className={'bpw-header-close-container'}>
+          {this.props.showCloseButton && this.renderCloseButton()}
+          {this.props.showBackButton && this.renderBackButton()}
+        </div>
         <div className={'bpw-header-title-flexbox'}>
           <div className={'bpw-header-title-container'}>
             {!this.props.hideBotAvatar && (
@@ -400,6 +430,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   showResetButton: store.view.showResetButton,
   showResizeButton: store.view.showResizeButton,
   showCloseButton: store.view.showCloseButton,
+  showBackButton: store.view.showBackButton,
   hasUnreadMessages: store.view.hasUnreadMessages,
   unreadCount: store.view.unreadCount,
   focusPrevious: store.view.focusPrevious,
@@ -456,6 +487,7 @@ type HeaderProps = InjectedIntlProps &
     | 'showBotInfoButton'
     | 'showResizeButton'
     | 'showCloseButton'
+    | 'showBackButton'
     | 'enableArrowNavigation'
     | 'botConvoDescription'
     | 'customButtons'

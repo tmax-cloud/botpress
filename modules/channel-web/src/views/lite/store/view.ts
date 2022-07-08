@@ -57,6 +57,10 @@ class ViewStore {
   @observable
   public isLayoutMinimized = true
 
+  /** 대화목록 정렬. asc | desc */
+  @observable
+  public conversationsOrderBy = 'desc'
+
   constructor(rootStore: RootStore, fullscreen: boolean) {
     this.rootStore = rootStore
     this.isFullscreen = fullscreen
@@ -70,7 +74,11 @@ class ViewStore {
 
   @computed
   get showConversationsButton() {
-    return !this.rootStore.config?.conversationId && this.rootStore.config?.showConversationsButton
+    return (
+      !this.isConversationsDisplayed &&
+      !this.rootStore.config?.conversationId &&
+      this.rootStore.config?.showConversationsButton
+    )
   }
 
   @computed
@@ -102,12 +110,17 @@ class ViewStore {
 
   @computed
   get showCloseButton() {
-    return !this.isFullscreen
+    return !this.isFullscreen && !this.isConversationsDisplayed
   }
 
   @computed
   get showWidgetButton() {
     return !this.rootStore.config?.hideWidget
+  }
+
+  @computed
+  get showBackButton() {
+    return this.isConversationsDisplayed
   }
 
   @computed
@@ -326,6 +339,11 @@ class ViewStore {
   @action.bound
   resizeChat() {
     this.isLayoutMinimized ? this.maximizeLayout() : this.minimizeLayout()
+  }
+
+  @action.bound
+  sortConversations() {
+    this.conversationsOrderBy = this.conversationsOrderBy === 'desc' ? 'asc' : 'desc'
   }
 
   @action.bound

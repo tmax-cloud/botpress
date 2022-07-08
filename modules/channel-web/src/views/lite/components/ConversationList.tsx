@@ -1,8 +1,8 @@
+import classnames from 'classnames'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 
-import Add from '../icons/Add'
 import { RootStore, StoreDef } from '../store'
 import { RecentConversation } from '../typings'
 
@@ -15,7 +15,7 @@ const ConversationListItem = injectIntl(({ conversation, onClick, hasFocus, intl
     <div className={'bpw-convo-item'} onClick={onClick}>
       <div className={'bpw-align-right'}>
         <div className={'bpw-title'}>
-          <div>{title}</div>
+          <div className={'bpw-title-text'}>{title}</div>
           <div className={'bpw-date'}>
             <span>{date}</span>
           </div>
@@ -81,26 +81,52 @@ class ConversationList extends React.Component<ConversationListProps> {
     }
   }
 
+  renderListItem(orderBy, conversations, fetchConversation) {
+    const conversationList = orderBy === 'desc' ? conversations : conversations.reverse()
+    return conversationList.map((convo, idx) => (
+      <ConversationListItem
+        key={convo.id}
+        hasFocus={this.state.focusIdx === idx}
+        conversation={convo}
+        onClick={fetchConversation.bind(this, convo.id)}
+      />
+    ))
+  }
+
   render() {
-    const { conversations, createConversation, fetchConversation } = this.props
+    const { conversations, createConversation, fetchConversation, intl } = this.props
     return (
-      <div tabIndex={0} ref={el => (this.main = el)} className={'bpw-convo-list'} onKeyDown={this.handleKeyDown}>
-        {conversations.map((convo, idx) => (
-          <ConversationListItem
-            key={convo.id}
-            hasFocus={this.state.focusIdx === idx}
-            conversation={convo}
-            onClick={fetchConversation.bind(this, convo.id)}
-          />
-        ))}
-        <button
-          ref={el => (this.btn = el)}
-          id="btn-convo-add"
-          className={'bpw-convo-add-btn'}
-          onClick={createConversation.bind(this, undefined)}
-        >
-          <Add width={15} height={15} />
-        </button>
+      <div className={'bpw-convo-container'}>
+        <div className={'bpw-convo-header-container'}>
+          <button
+            ref={el => (this.btn = el)}
+            id="btn-convo-add"
+            className={'bpw-convo-add-btn'}
+            onClick={createConversation.bind(this, undefined)}
+          >
+            {intl.formatMessage({ id: 'conversationList.addConversation' })}
+          </button>
+          <div className={'bpw-convo-header-title-conainer'}>
+            <div className={'bpw-convo-header-title'}>
+              {intl.formatMessage({ id: 'conversationList.headerTitle' }, { size: conversations.length })}
+            </div>
+            <button
+              id="btn-convo-sort-list"
+              className={'bpw-convo-header-sort-btn'}
+              onClick={this.props.sortConversations}
+            >
+              <span
+                className={classnames('bpw-convo-header-sort-arrow', {
+                  'bpw-convo-header-sort-arrow-down': this.props.conversationsOrderBy === 'asc'
+                })}
+              />
+              {intl.formatMessage({ id: 'conversationList.headerSort' })}
+            </button>
+          </div>
+        </div>
+        <div tabIndex={0} ref={el => (this.main = el)} className={'bpw-convo-list'} onKeyDown={this.handleKeyDown}>
+          {this.renderListItem(this.props.conversationsOrderBy, conversations, fetchConversation)}
+        </div>
       </div>
     )
   }
@@ -110,8 +136,18 @@ export default inject(({ store }: { store: RootStore }) => ({
   conversations: store.conversations,
   createConversation: store.createConversation,
   fetchConversation: store.fetchConversation,
-  enableArrowNavigation: store.config.enableArrowNavigation
+  enableArrowNavigation: store.config.enableArrowNavigation,
+  conversationsOrderBy: store.view.conversationsOrderBy,
+  sortConversations: store.view.sortConversations
 }))(injectIntl(observer(ConversationList)))
 
 type ConversationListProps = InjectedIntlProps &
-  Pick<StoreDef, 'conversations' | 'fetchConversation' | 'createConversation' | 'enableArrowNavigation'>
+  Pick<
+    StoreDef,
+    | 'conversations'
+    | 'fetchConversation'
+    | 'createConversation'
+    | 'enableArrowNavigation'
+    | 'conversationsOrderBy'
+    | 'sortConversations'
+  >
