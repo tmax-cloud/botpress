@@ -894,7 +894,7 @@ body {
   flex-shrink: 0;
   height: 52px;
   font-weight: 500;
-  padding: 0.5rem 1.25rem;
+  padding: 0.75rem 1.25rem 0.5rem 1.25rem;
   overflow: hidden;
   background-color: #30bad4;
 }
@@ -957,6 +957,7 @@ body {
 
 .bpw-header-name-convo {
   font-weight: bold;
+  line-height: 1.5;
 }
 
 .bpw-header-name img {
