@@ -1734,6 +1734,7 @@ declare module 'botpress/sdk' {
 
   export interface Conversation {
     id: uuid
+    name?: string | null
     clientId: uuid
     userId: uuid
     createdOn: Date

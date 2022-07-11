@@ -41,7 +41,7 @@ const WEBCHAT_CUSTOM_ID_KEY = 'webchatCustomId'
 type ChatRequest = BPRequest & {
   visitorId: string
   userId: string
-  botId: string
+  botId: string  
   conversationId: string
   messaging: MessagingClient
 }
@@ -371,6 +371,24 @@ export default async (bp: typeof sdk, db: Database) => {
         recentConversationLifetime: config.recentConversationLifetime
       })
     })
+  )  
+  
+  router.put(
+    '/conversations/:id/rename/:name',    
+    asyncMiddleware(async (req: ChatRequest, res: Response) => {
+      const { botId } = req.params
+      const conversationId = req.params.id
+      const nameTochange = req.params.name
+      const { userId } = req.body
+
+      const conversation = await bp.messaging.forBot(botId).getConversation(conversationId)
+      
+      if(!conversation) {
+        return res.status(404).send('conversationID was not found')
+      }                 
+      conversation.name = nameTochange
+      res.json(conversation)      
+    })
   )
 
   async function sendNewMessage(req: ChatRequest, payload: any, useDebugger: boolean) {
@@ -511,7 +529,7 @@ export default async (bp: typeof sdk, db: Database) => {
       await bp.dialog.deleteSession(sessionId, botId)
       res.sendStatus(200)
     })
-  )
+  )    
 
   router.post(
     '/conversations/new',
@@ -699,5 +717,5 @@ export default async (bp: typeof sdk, db: Database) => {
       await bp.messaging.forBot(botId).deleteMessagesByConversation(conversationId)
       res.sendStatus(204)
     })
-  )
+  )  
 }
