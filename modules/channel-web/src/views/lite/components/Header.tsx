@@ -66,11 +66,11 @@ class Header extends React.Component<HeaderProps> {
 
   renderTitle = () => {
     const title = this.props.isConversationsDisplayed ? (
-      this.props.intl.formatMessage({ id: 'header.conversations' })
+      <span className={'bpw-header-name-convo'}>{this.props.intl.formatMessage({ id: 'header.conversations' })}</span>
     ) : this.props.botNameUrl ? (
       <img src={this.props.botNameUrl} />
     ) : (
-      this.props.botName
+      <span>{this.props.botName}</span>
     )
 
     return (
