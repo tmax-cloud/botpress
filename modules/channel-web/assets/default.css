@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 /* Old version IE 10 and 11 only */
 :root {
   --main-bg-color: #ffffff;
@@ -15,13 +17,14 @@
 
 body {
   margin: 0;
-  font-family: Roboto;
+  font-family: 'Noto Sans KR', 'Roboto';
   overflow: hidden;
 }
 
 * {
   box-sizing: border-box;
   outline: none !important;
+  font-family: 'Noto Sans KR', 'Roboto';
 }
 
 .hidden {
@@ -891,7 +894,7 @@ body {
   flex-shrink: 0;
   height: 52px;
   font-weight: 500;
-  padding: 0.5rem 1.25rem 0 1.25rem;
+  padding: 0.5rem 1.25rem;
   overflow: hidden;
   background-color: #30bad4;
 }
@@ -902,6 +905,7 @@ body {
 
 .bpw-header-close-container {
   /* padding: 0 0.25rem; */
+  align-self: end;
 }
 
 .bpw-header-title-flexbox {
@@ -951,7 +955,7 @@ body {
   margin-top: 0px;
 }
 
-.bpw-header-name {
+.bpw-header-name-convo {
   font-weight: bold;
 }
 
@@ -1037,7 +1041,7 @@ body {
   width: 1px;
   height: 8px;
   background-color: rgba(0, 0, 0, 0.2);
-  margin: 5px 12px 0px 12px;
+  margin: 0px 12px;
 }
 
 .bpw-floating-button {
