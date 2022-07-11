@@ -6,7 +6,6 @@ import { inject, observer } from 'mobx-react'
 import queryString from 'query-string'
 import React from 'react'
 import { injectIntl } from 'react-intl'
-import ToolTip from '../../../../../packages/ui-shared-lite/ToolTip'
 
 import Container from './components/Container'
 import Stylesheet from './components/Stylesheet'
@@ -316,26 +315,18 @@ class Web extends React.Component<MainProps> {
     }
 
     return (
-      <ToolTip
-        tooltipId="botpress-btn-widget-tooltip"
-        childId="btn-widget"
-        content={this.props.intl.formatMessage({ id: 'widget.toggle' })}
+      <button
+        id="btn-widget"
+        className={classnames('bpw-widget-btn', 'bpw-floating-button', {
+          'bpw-hypercloud-widget-btn': this.props.config.widgetMode === 'hypercloud',
+          [`bpw-anim-${this.props.widgetTransition}` || 'none']: true
+        })}
+        aria-label={this.props.intl.formatMessage({ id: 'widget.toggle' })}
+        onClick={this.props.showChat.bind(this)}
       >
-        <button
-          id="btn-widget"
-          className={classnames('bpw-widget-btn', 'bpw-floating-button', {
-            'bpw-hypercloud-widget-btn': this.props.config.widgetMode === 'hypercloud',
-            [`bpw-anim-${this.props.widgetTransition}` || 'none']: true
-          })}
-          aria-label={this.props.intl.formatMessage({ id: 'widget.toggle' })}
-          onClick={this.props.showChat.bind(this)}
-        >
-          {this.props.config.widgetMode === 'default' && <ChatIcon />}
-          {this.props.hasUnreadMessages && (
-            <span className={'bpw-floating-button-unread'}>{this.props.unreadCount}</span>
-          )}
-        </button>
-      </ToolTip>
+        {this.props.config.widgetMode === 'default' && <ChatIcon />}
+        {this.props.hasUnreadMessages && <span className={'bpw-floating-button-unread'}>{this.props.unreadCount}</span>}
+      </button>
     )
   }
 

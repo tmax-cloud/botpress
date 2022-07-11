@@ -5,5 +5,4 @@ export interface ToolTipProps {
   content: string | JSX.Element | undefined
   position?: string
   childId?: string
-  tooltipId?: string
 }
