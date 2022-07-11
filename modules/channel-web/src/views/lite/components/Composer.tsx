@@ -3,9 +3,10 @@ import debounce from 'lodash/debounce'
 import { observe } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 import ToolTip from '../../../../../../packages/ui-shared-lite/ToolTip'
+import SendMessage from '../icons/SendMessage'
 import { RootStore, StoreDef } from '../store'
 import { isRTLText } from '../utils'
 import SuggestionList from './SuggestionList'
@@ -139,12 +140,16 @@ class Composer extends React.Component<ComposerProps, StateProps> {
       <>
         <SuggestionList
           isLoading={this.state.isLoading}
+          inputMessage={this.props.message}
           suggestions={this.state.suggestions}
           onItemClick={this.handleSuggestionClicked}
         />
         <div
           role="region"
-          className={classNames('bpw-composer', direction, { 'bpw-composer-powered': this.props.isPoweredByDisplayed })}
+          className={classNames('bpw-composer', direction, {
+            'bpw-composer-minimized': this.props.isLayoutMinimized,
+            'bpw-composer-powered': this.props.isPoweredByDisplayed
+          })}
         >
           <div className={'bpw-composer-inner'}>
             <div className={'bpw-composer-textarea'}>
@@ -185,7 +190,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
                 }
               >
                 <button
-                  className={'bpw-send-button'}
+                  className={classNames('bpw-send-button', { 'bpw-send-button-active': this.props.message.length })}
                   disabled={!this.props.message.length || this.props.composerLocked || this.state.isRecording}
                   onClick={this.props.sendMessage.bind(this, undefined)}
                   aria-label={this.props.intl.formatMessage({
@@ -194,7 +199,7 @@ class Composer extends React.Component<ComposerProps, StateProps> {
                   })}
                   id="btn-send"
                 >
-                  <FormattedMessage id={'composer.send'} />
+                  <SendMessage />
                 </button>
               </ToolTip>
               {this.props.enableVoiceComposer && (
@@ -231,6 +236,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   focusPrevious: store.view.focusPrevious,
   focusNext: store.view.focusNext,
   isPoweredByDisplayed: store.view.isPoweredByDisplayed,
+  isLayoutMinimized: store.view.isLayoutMinimized,
   enableArrowNavigation: store.config.enableArrowNavigation,
   enableResetSessionShortcut: store.config.enableResetSessionShortcut,
   resetSession: store.resetSession,
@@ -269,6 +275,7 @@ type ComposerProps = {
     | 'composerMaxTextLength'
     | 'isPoweredByDisplayed'
     | 'fetchSuggestionData'
+    | 'isLayoutMinimized'
   >
 
 interface StateProps {
