@@ -62,7 +62,7 @@ export class NLURouter extends CustomRouter {
         const answer = await this.nluService.intents.deleteBracket(searchs)          
         res.send(answer)                
       })
-    )
+    )      
 
     this.router.get(
       '/contexts',
