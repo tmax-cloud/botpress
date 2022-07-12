@@ -269,14 +269,12 @@ class ViewStore {
   @action.bound
   minimizeLayout() {
     this.isLayoutMinimized = true
-    !this.isFullscreen && this.setContainerWidth(constants.DEFAULT_CONTAINER_WIDTH)
     !this.isFullscreen && this.setLayoutWidth(constants.DEFAULT_LAYOUT_WIDTH)
   }
 
   @action.bound
   maximizeLayout() {
     this.isLayoutMinimized = false
-    !this.isFullscreen && this.setContainerWidth(constants.DEFAULT_MAX_CONTAINER_WIDTH)
     !this.isFullscreen && this.setLayoutWidth(constants.DEFAULT_MAX_LAYOUT_WIDTH)
   }
 
