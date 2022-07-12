@@ -129,7 +129,11 @@ class Header extends React.Component<HeaderProps> {
   renderResetButton() {
     return (
       <>
-        <ToolTip childId="btn-reset" content={this.props.intl.formatMessage({ id: 'header.resetConversation' })}>
+        <ToolTip
+          childId="btn-reset"
+          content={this.props.intl.formatMessage({ id: 'header.resetConversation' })}
+          position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
+        >
           <button
             type="button"
             tabIndex={-1}
@@ -155,7 +159,11 @@ class Header extends React.Component<HeaderProps> {
   renderDownloadButton() {
     return (
       <>
-        <ToolTip childId="btn-download" content={this.props.intl.formatMessage({ id: 'header.downloadConversation' })}>
+        <ToolTip
+          childId="btn-download"
+          content={this.props.intl.formatMessage({ id: 'header.downloadConversation' })}
+          position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
+        >
           <button
             type="button"
             tabIndex={-1}
@@ -184,6 +192,7 @@ class Header extends React.Component<HeaderProps> {
         <ToolTip
           childId="btn-conversations"
           content={this.props.intl.formatMessage({ id: 'header.toggleConversation' })}
+          position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
         >
           <button
             type="button"
@@ -235,6 +244,7 @@ class Header extends React.Component<HeaderProps> {
           content={this.props.intl.formatMessage({
             id: this.props.isLayoutMinimized ? 'header.maximizeChatWindow' : 'header.minimizeChatWindow'
           })}
+          position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
         >
           <button
             type="button"
@@ -260,7 +270,11 @@ class Header extends React.Component<HeaderProps> {
 
   renderCloseButton() {
     return (
-      <ToolTip childId="btn-close" content={this.props.intl.formatMessage({ id: 'header.hideChatWindow' })}>
+      <ToolTip
+        childId="btn-close"
+        content={this.props.intl.formatMessage({ id: 'header.hideChatWindow' })}
+        position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
+      >
         <button
           type="button"
           id="btn-close"
@@ -282,7 +296,11 @@ class Header extends React.Component<HeaderProps> {
 
   renderBackButton() {
     return (
-      <ToolTip childId="btn-back" content={this.props.intl.formatMessage({ id: 'header.backToHome' })}>
+      <ToolTip
+        childId="btn-back"
+        content={this.props.intl.formatMessage({ id: 'header.backToHome' })}
+        position={this.props.isLayoutMinimized ? 'top' : 'bottom'}
+      >
         <button
           type="button"
           id="btn-back"
