@@ -1,35 +1,79 @@
 import classnames from 'classnames'
+import _ from 'lodash'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
+import Pencil from '../icons/Pencil'
 
 import { RootStore, StoreDef } from '../store'
-import { RecentConversation } from '../typings'
+import { Conversation, RecentConversation } from '../typings'
 
-const ConversationListItem = injectIntl(({ conversation, onClick, hasFocus, intl }: ConversationListItemProps) => {
-  const title = intl.formatMessage({ id: 'conversationList.title' }, { id: conversation.id })
-  const date = intl.formatRelative(conversation.lastMessage?.sentOn || conversation.createdOn)
-  const message = conversation.lastMessage?.payload?.text || '...'
+const ConversationListItem = injectIntl(
+  ({ conversation, onClick, hasFocus, intl, renameConversation }: ConversationListItemProps) => {
+    const date = intl.formatRelative(conversation.lastMessage?.sentOn || conversation.createdOn)
+    // const message = conversation.lastMessage?.payload?.text || '...'
 
-  return (
-    <div className={'bpw-convo-item'} onClick={onClick}>
-      <div className={'bpw-align-right'}>
-        <div className={'bpw-title'}>
-          <div className={'bpw-title-text'}>{title}</div>
-          <div className={'bpw-date'}>
-            <span>{date}</span>
+    const [isEdit, setEdit] = React.useState(false)
+    const [title, setTitle] = React.useState<string>(conversation.name || conversation.id)
+
+    const handleEditClick = (event: React.MouseEvent) => {
+      event.stopPropagation()
+      setEdit(!isEdit)
+    }
+
+    const handleSubmitClick = (event: React.MouseEvent) => {
+      event.stopPropagation()
+      if (title && title !== conversation.name) {
+        renameConversation(conversation.id, title)
+      }
+      setEdit(!isEdit)
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(event.target.value)
+    }
+
+    return (
+      <div className={'bpw-convo-item'} onClick={onClick}>
+        <div className={'bpw-align-right'}>
+          <div className={'bpw-title'}>
+            <div className={'bpw-title-text'}>
+              {isEdit ? (
+                <input
+                  type="text"
+                  className={'bpw-title-edit-input'}
+                  value={title}
+                  onClick={event => event.stopPropagation()}
+                  onChange={handleChange}
+                />
+              ) : (
+                <>{title}</>
+              )}
+            </div>
+            <div className={'bpw-date'}>{date}</div>
+          </div>
+          <div className={'bpw-title-edit'}>
+            {isEdit ? (
+              <button className={'bpw-title-edit-submit'} onClick={handleSubmitClick}>
+                {intl.formatMessage({ id: 'header.submitConversationName' })}
+              </button>
+            ) : (
+              <div className={'bpw-title-edit-pencil'} onClick={handleEditClick}>
+                <Pencil />
+              </div>
+            )}
           </div>
         </div>
-        <div className={'bpw-convo-preview'}>{message}</div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 type ConversationListItemProps = {
   conversation: RecentConversation
   hasFocus: boolean
   onClick: (event: React.MouseEvent) => void
+  renameConversation: (conversationId: string, name: string) => Conversation
 } & InjectedIntlProps &
   Pick<StoreDef, 'conversations' | 'fetchConversation' | 'createConversation'>
 
@@ -81,20 +125,30 @@ class ConversationList extends React.Component<ConversationListProps> {
     }
   }
 
-  renderListItem(orderBy, conversations, fetchConversation) {
-    const conversationList = orderBy === 'desc' ? conversations : conversations.reverse()
+  renderListItem(conversations, orderBy, fetchConversation, renameConversation) {
+    const newConvos = _.sortBy(conversations, convo => convo.lastMessage?.sentOn || convo.createdOn)
+    const conversationList = orderBy === 'desc' ? newConvos.reverse() : newConvos
     return conversationList.map((convo, idx) => (
       <ConversationListItem
         key={convo.id}
         hasFocus={this.state.focusIdx === idx}
         conversation={convo}
         onClick={fetchConversation.bind(this, convo.id)}
+        renameConversation={renameConversation}
       />
     ))
   }
 
   render() {
-    const { conversations, createConversation, fetchConversation, intl } = this.props
+    const {
+      conversations,
+      createConversation,
+      fetchConversation,
+      sortConversations,
+      renameConversation,
+      intl,
+      conversationsOrderBy
+    } = this.props
     return (
       <div className={'bpw-convo-container'}>
         <div className={'bpw-convo-header-container'}>
@@ -110,14 +164,10 @@ class ConversationList extends React.Component<ConversationListProps> {
             <div className={'bpw-convo-header-title'}>
               {intl.formatMessage({ id: 'conversationList.headerTitle' }, { size: conversations.length })}
             </div>
-            <button
-              id="btn-convo-sort-list"
-              className={'bpw-convo-header-sort-btn'}
-              onClick={this.props.sortConversations}
-            >
+            <button id="btn-convo-sort-list" className={'bpw-convo-header-sort-btn'} onClick={sortConversations}>
               <span
                 className={classnames('bpw-convo-header-sort-arrow', {
-                  'bpw-convo-header-sort-arrow-down': this.props.conversationsOrderBy === 'asc'
+                  'bpw-convo-header-sort-arrow-down': conversationsOrderBy === 'asc'
                 })}
               />
               {intl.formatMessage({ id: 'conversationList.headerSort' })}
@@ -125,7 +175,7 @@ class ConversationList extends React.Component<ConversationListProps> {
           </div>
         </div>
         <div tabIndex={0} ref={el => (this.main = el)} className={'bpw-convo-list'} onKeyDown={this.handleKeyDown}>
-          {this.renderListItem(this.props.conversationsOrderBy, conversations, fetchConversation)}
+          {this.renderListItem(conversations, conversationsOrderBy, fetchConversation, renameConversation)}
         </div>
       </div>
     )
@@ -136,6 +186,7 @@ export default inject(({ store }: { store: RootStore }) => ({
   conversations: store.conversations,
   createConversation: store.createConversation,
   fetchConversation: store.fetchConversation,
+  renameConversation: store.renameConversation,
   enableArrowNavigation: store.config.enableArrowNavigation,
   conversationsOrderBy: store.view.conversationsOrderBy,
   sortConversations: store.view.sortConversations
@@ -146,6 +197,7 @@ type ConversationListProps = InjectedIntlProps &
     StoreDef,
     | 'conversations'
     | 'fetchConversation'
+    | 'renameConversation'
     | 'createConversation'
     | 'enableArrowNavigation'
     | 'conversationsOrderBy'

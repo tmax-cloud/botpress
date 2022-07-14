@@ -11,6 +11,7 @@ import { getUserLocale, initializeLocale } from '../translations'
 import {
   BotInfo,
   Config,
+  Conversation,
   CurrentConversation,
   EventFeedback,
   Message,
@@ -552,6 +553,17 @@ class RootStore {
       return []
     }
     const data = await this.api.fetchSuggestions(message)
+    return data
+  }
+
+  /** 대화방 이름 변경 */
+  @action.bound
+  async renameConversation(conversationId: uuid, name: string): Promise<Conversation> {
+    if (!name) {
+      return
+    }
+    const data = await this.api.renameConversation(conversationId, name)
+    await this.fetchConversations()
     return data
   }
 }

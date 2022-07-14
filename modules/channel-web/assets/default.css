@@ -304,6 +304,7 @@ body {
   flex-direction: column;
   min-height: 1px;
   background-color: #fbfbfb;
+  border-radius: 0 0 10px 10px;
 }
 
 .bpw-msg-list {
@@ -614,6 +615,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   background-color: #fbfbfb;
+  border-radius: 0 0 10px 10px;
 }
 
 .bpw-convo-header-title-conainer {
@@ -658,6 +660,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   margin-right: 0.375rem;
+  background-color: #fff;
 }
 
 .bpw-convo-list::-webkit-scrollbar {
@@ -706,19 +709,20 @@ body {
 }
 
 .bpw-convo-item .bpw-title {
-  -webkit-box-align: center;
+  /*-webkit-box-align: center;
   -ms-flex-align: center;
-  align-items: center;
+  align-items: center;*/
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
   position: relative;
   color: #151515;
   font-size: 16px;
+  max-width: calc(100% - 70px);
 }
 
 .bpw-convo-item .bpw-title-text {
-  max-width: 16rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -728,13 +732,15 @@ body {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  justify-content: space-between;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
 }
 
 .bpw-convo-item .bpw-convo-preview {
@@ -745,16 +751,48 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-top: 0.375rem;
 }
 
 .bpw-convo-item .bpw-date {
-  text-align: right;
   font-size: 0.75rem;
   color: #6a6e73;
   line-height: 21px;
-  position: absolute;
-  right: 0;
+  margin-top: 0.375rem;
+}
+
+.bpw-convo-item .bpw-title-edit {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-self: center;
+  margin-left: 30px;
+  cursor: pointer;
+}
+
+.bpw-convo-item .bpw-title-edit-input {
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background: transparent;
+  min-width: 246px;
+}
+
+.bpw-convo-item .bpw-title-edit-pencil {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bpw-convo-item .bpw-title-edit-submit {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: #00426b;
+  color: #fff;
+  font-size: 15px;
+  line-height: 16px;
 }
 
 .bpw-keyboard-quick_reply-dropdown {

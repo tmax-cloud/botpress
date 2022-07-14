@@ -136,6 +136,19 @@ export default class WebchatApi {
     }
   }
 
+  async renameConversation(conversationId: uuid, name: string) {
+    try {
+      const { data } = await this.axios.put(
+        `/conversations/${conversationId}/rename/${encodeURIComponent(name)}`,
+        { ...this.baseUserPayload },
+        this.axiosConfig
+      )
+      return data
+    } catch (err) {
+      console.error('Error while renaming conversation', err)
+    }
+  }
+
   async sendEvent(payload: any, conversationId: uuid): Promise<void> {
     try {
       return this.axios.post('/events', { ...this.baseUserPayload, conversationId, payload }, this.axiosConfig)

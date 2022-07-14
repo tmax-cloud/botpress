@@ -274,6 +274,7 @@ export type uuid = string
 
 export interface Conversation {
   id: uuid
+  name?: string | null
   clientId: uuid
   userId: uuid
   createdOn: Date
