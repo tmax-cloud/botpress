@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import _ from 'lodash'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -82,7 +83,8 @@ class ConversationList extends React.Component<ConversationListProps> {
   }
 
   renderListItem(orderBy, conversations, fetchConversation) {
-    const conversationList = orderBy === 'desc' ? conversations : conversations.reverse()
+    const newConvos = _.sortBy(conversations, convo => convo.lastMessage?.sentOn || convo.createdOn)
+    const conversationList = orderBy === 'desc' ? newConvos.reverse() : newConvos
     return conversationList.map((convo, idx) => (
       <ConversationListItem
         key={convo.id}
@@ -94,7 +96,14 @@ class ConversationList extends React.Component<ConversationListProps> {
   }
 
   render() {
-    const { conversations, createConversation, fetchConversation, intl } = this.props
+    const {
+      conversations,
+      createConversation,
+      fetchConversation,
+      sortConversations,
+      intl,
+      conversationsOrderBy
+    } = this.props
     return (
       <div className={'bpw-convo-container'}>
         <div className={'bpw-convo-header-container'}>
@@ -110,14 +119,10 @@ class ConversationList extends React.Component<ConversationListProps> {
             <div className={'bpw-convo-header-title'}>
               {intl.formatMessage({ id: 'conversationList.headerTitle' }, { size: conversations.length })}
             </div>
-            <button
-              id="btn-convo-sort-list"
-              className={'bpw-convo-header-sort-btn'}
-              onClick={this.props.sortConversations}
-            >
+            <button id="btn-convo-sort-list" className={'bpw-convo-header-sort-btn'} onClick={sortConversations}>
               <span
                 className={classnames('bpw-convo-header-sort-arrow', {
-                  'bpw-convo-header-sort-arrow-down': this.props.conversationsOrderBy === 'asc'
+                  'bpw-convo-header-sort-arrow-down': conversationsOrderBy === 'asc'
                 })}
               />
               {intl.formatMessage({ id: 'conversationList.headerSort' })}
@@ -125,7 +130,7 @@ class ConversationList extends React.Component<ConversationListProps> {
           </div>
         </div>
         <div tabIndex={0} ref={el => (this.main = el)} className={'bpw-convo-list'} onKeyDown={this.handleKeyDown}>
-          {this.renderListItem(this.props.conversationsOrderBy, conversations, fetchConversation)}
+          {this.renderListItem(conversationsOrderBy, conversations, fetchConversation)}
         </div>
       </div>
     )
