@@ -24,7 +24,7 @@ export default {
     enableReset: true,
     enableTranscriptDownload: true,
     enableArrowNavigation: false,
-    showConversationsButton: true,
+    showConversationsButton: false, // 이전 대화 목록보기 기능 제거
     showResizeLayoutHeightButton: true,
     useSessionStorage: false,
     showUserName: false,
