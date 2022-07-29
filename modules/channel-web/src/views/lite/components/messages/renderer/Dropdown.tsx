@@ -30,16 +30,10 @@ export const Dropdown = (props: Renderer.Dropdown) => {
 
     if (selectedOption.length) {
       label = selectedOption.map(x => x.label).join(',')
-      value = selectedOption.map(x => x.value || x.label).split(',')
+      value = selectedOption.map(x => x.value || x.label).join(',')
     }
-    
-    const statusView = {
-      resource: value[0],
-      namespace: value[1],
-      status: value[2]
-    }  
 
-    props.onSendData && props.onSendData({ type: 'quick_reply', text: label, payload: statusView })
+    props.onSendData && props.onSendData({ type: 'quick_reply', text: label, payload: value || label })
   }
 
   const renderSelect = inKeyboard => {

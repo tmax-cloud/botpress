@@ -17,11 +17,27 @@ import { Button } from './Button'
 export class QuickReplies extends Component<Renderer.QuickReply> {
   handleButtonClicked = (title, payload) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.props.onSendData?.({
-      type: 'quick_reply',
-      text: title,
-      payload
-    })
+    const value = payload.split('!')
+    const statusView = {
+      resource: value[0],
+      namespace: value[1],
+      status: value[2]
+    }  
+    const exp = /!/;
+    if (payload.search(exp) == -1) {
+      this.props.onSendData?.({
+        type: 'quick_reply',
+        text: title,
+        payload
+      })
+    } else {
+      this.props.onSendData?.({
+        type: 'quick_reply',
+        text: title,
+        statusView
+      })
+    }
+    
     this.props.store.composer.setLocked(false)
   }
 
