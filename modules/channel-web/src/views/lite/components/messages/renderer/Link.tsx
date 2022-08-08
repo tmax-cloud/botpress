@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Link = (props) => {
+const Link = (props: {'btn': {'title': string, 'url': string}}) => {
   return (
     <div className={'bpw-link'}>
       <a
