@@ -161,7 +161,7 @@ class Message extends Component<MessageProps> {
   }
 
   render_link() {
-    return <Link btn={this.props.payload.elements[0].buttons[0]}/>
+    return <Link btn={this.props.payload.elements?.[0].buttons[0]}/>
   }
 
   async onMessageClicked() {
