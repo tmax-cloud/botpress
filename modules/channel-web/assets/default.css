@@ -586,6 +586,7 @@ body {
   height: 16px;
   display: inline-block;
   background-size: 100% 100%;
+  filter: invert(100%)
 }
 
 .bpw-card-picture {
@@ -1356,4 +1357,33 @@ body {
 
 .bpw-rtl .bpw-keyboard-quick_reply-dropdown {
   direction: rtl;
+}
+
+.bpw-link {
+  box-sizing: border-box;
+  background-color: #316CE6;
+  color: white;
+  line-height: 1.28em;
+  margin-right: 3px;
+  min-height: 33px;
+  max-height: 410px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bpw-link-action {
+  padding: 0 10px;
+  font-weight: normal;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 32px;
+  align-items:center;
+  color: white;
+}
+
+.bpw-link-action:hover {
+  color: white;
 }

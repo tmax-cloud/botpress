@@ -11,6 +11,7 @@ import * as Keyboard from '../Keyboard'
 
 import { Carousel, FileMessage, LoginPrompt, Text, VoiceMessage } from './renderer'
 import { Dropdown } from './renderer/Dropdown'
+import Link from './renderer/Link'
 
 class Message extends Component<MessageProps> {
   state = {
@@ -159,6 +160,10 @@ class Message extends Component<MessageProps> {
     )
   }
 
+  render_link() {
+    return <Link btn={this.props.payload.elements?.[0].buttons[0]}/>
+  }
+
   async onMessageClicked() {
     await this.props.store.loadEventInDebugger(this.props.messageId, true)
   }
@@ -191,6 +196,14 @@ class Message extends Component<MessageProps> {
       return (
         <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
           {rendered}
+        </div>
+      )
+    }
+
+    if (this.props.payload.elements?.[0].title==="용어사전") {
+      return (
+        <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
+          {this.render_link()}
         </div>
       )
     }
