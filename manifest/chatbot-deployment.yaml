@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot
+  namespace: chatbot
+  labels:
+    app: chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatbot
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+        - image: docker.io/tmaxcloudck/chatbot:b0.0.8
+          name: botpress-prod
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            name: http
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2000Mi
+            requests:
+              cpu: 1000m
+              memory: 2000Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
