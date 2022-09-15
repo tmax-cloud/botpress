@@ -37,6 +37,8 @@ export namespace Renderer {
     noBubble?: boolean
     keyboard?: any
     eventId?: string
+    /** true이면 메시지 숨김 처리 */
+    hideEmptyMessage?: boolean
 
     isHighlighted?: boolean
     isLastGroup?: boolean
