@@ -204,7 +204,7 @@ class Message extends Component<MessageProps> {
     if (this.props.hideEmptyMessage || this.props.payload?.wrapped?.hideEmptyMessage) {
       return (
         <>
-          {(type !== 'text' || (type === 'text' && this.props.payload?.text)) && (
+          {(type !== 'text' || (type === 'text' && !!this.props.payload?.text)) && (
             <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
               <div>{rendered}</div>
               <div>{this.props.store.config.showTimestamp && this.props.isLastOfGroup && this.renderTimestamp()}</div>
