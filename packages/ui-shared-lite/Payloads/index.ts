@@ -86,6 +86,7 @@ const renderChoicePayload = (content: sdk.ChoiceContent & ExtraChoiceProperties)
     disableFreeText: content.disableFreeText,
     wrapped: {
       type: 'text',
+      hideEmptyMessage: !content.text,
       ...omit(content, 'choices', 'type')
     }
   }

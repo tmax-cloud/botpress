@@ -126,7 +126,15 @@ class Message extends Component<MessageProps> {
       ...sanitizedProps,
       ...messageDataProps,
       keyboard: Keyboard,
-      children: wrapped && <Message {...sanitizedProps} keyboard={Keyboard} noBubble payload={wrapped} />
+      children: wrapped && (
+        <Message
+          {...sanitizedProps}
+          keyboard={Keyboard}
+          noBubble
+          hideEmptyMessage={wrapped.hideEmptyMessage}
+          payload={wrapped}
+        />
+      )
     }
 
     return <InjectedModuleView moduleName={module} componentName={component} lite extraProps={props} />
@@ -161,7 +169,7 @@ class Message extends Component<MessageProps> {
   }
 
   render_link() {
-    return <Link btn={this.props.payload.elements?.[0].buttons[0]}/>
+    return <Link btn={this.props.payload.elements?.[0].buttons[0]} />
   }
 
   async onMessageClicked() {
@@ -192,6 +200,20 @@ class Message extends Component<MessageProps> {
 
     const additionalStyle = (this.props.payload && this.props.payload['web-style']) || {}
 
+    // 메시지 타입이 text이고 text가 빈 텍스트일 때는 메시지 숨김 처리
+    if (this.props.hideEmptyMessage || this.props.payload?.wrapped?.hideEmptyMessage) {
+      return (
+        <>
+          {(type !== 'text' || (type === 'text' && this.props.payload?.text)) && (
+            <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
+              <div>{rendered}</div>
+              <div>{this.props.store.config.showTimestamp && this.props.isLastOfGroup && this.renderTimestamp()}</div>
+            </div>
+          )}
+        </>
+      )
+    }
+
     if (this.props.noBubble || this.props.payload?.wrapped?.noBubble) {
       return (
         <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
@@ -200,7 +222,7 @@ class Message extends Component<MessageProps> {
       )
     }
 
-    if (this.props.payload.elements?.[0].title==="용어사전") {
+    if (this.props.payload.elements?.[0].title === '용어사전') {
       return (
         <div className={classnames(this.props.className, wrappedClass)} style={additionalStyle}>
           {this.render_link()}
