@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +16,7 @@ spec:
         app: chatbot
     spec:
       containers:
-        - image: docker.io/tmaxcloudck/chatbot:b0.0.8
+        - image: docker.io/tmaxcloudck/chatbot:b0.0.9
           name: botpress-prod
           imagePullPolicy: Always
           ports:
