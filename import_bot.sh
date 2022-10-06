@@ -1,7 +1,5 @@
 #!/bin/bash
 
-yarn start &
-
 sleep 10
 
 curl --location --request POST 'https://chatbot.tmaxcloud.org/api/v2/admin/auth/register/basic/default' --header 'Content-Type: application/json' --data-raw '{"email": "admin", "password": "admin"}'
